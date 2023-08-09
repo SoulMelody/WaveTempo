@@ -5,7 +5,7 @@ import click
 import librosa
 import scipy as sp
 
-from .wfd import WaveToneDataType, WaveToneFormatData, WaveTongTempoMaps
+from .wfd import WaveToneDataType, WaveToneFormatData, WaveToneTempoMaps
 
 
 @click.command()
@@ -62,7 +62,7 @@ def get_tempos(wfd_path: pathlib.Path, dynamic: bool, suffix: str, hop_length: i
             break
     if tempo_data_index is None:
         raise click.BadParameter(f'No tempo map found in {wfd_path}')
-    tempo_map_content = WaveTongTempoMaps.build(tempo_data)
+    tempo_map_content = WaveToneTempoMaps.build(tempo_data)
     wfd.data_bodies[i] = tempo_map_content
     wfd.indexes[i] = {
         "data_type": WaveToneDataType.TEMPO_MAP,

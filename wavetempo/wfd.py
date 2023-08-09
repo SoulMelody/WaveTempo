@@ -38,11 +38,11 @@ class WaveToneDataType(IntEnum):
 # Reference: http://ackiesound.ifdef.jp/doc/wfdformat/main.html
 
 
-WaveTongTempoMap = Struct(
+WaveToneTempoMap = Struct(
     "start" / Int32sl,
     "tempo" / Int32sl,
 )
-WaveTongTempoMaps = GreedyRange(WaveTongTempoMap)
+WaveToneTempoMaps = GreedyRange(WaveToneTempoMap)
 
 
 WaveToneFormatData = Struct(

@@ -3,6 +3,7 @@ import pathlib
 
 import click
 import librosa
+import numpy as np
 import scipy as sp
 
 from .wfd import WaveToneDataType, WaveToneFormatData, WaveToneTempoMaps
@@ -24,7 +25,12 @@ def get_tempos(wfd_path: pathlib.Path, dynamic: bool, suffix: str, hop_length: i
     click.echo("loading audio file...")
     y, sr = librosa.load(audio_path, sr=None, offset=wfd.start_offset / 1000)
     click.echo("calculating tempo...")
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr)
+    mel_spec = librosa.feature.melspectrogram(y=y, sr=sr)
+    onset_env = librosa.onset.onset_strength(
+        S=librosa.power_to_db(mel_spec, ref=np.max),
+        sr=sr, hop_length=hop_length,
+        lag=2, max_size=3
+    )  # reference: https://tempobeatdownbeat.github.io/tutorial/ch2_basics/baseline.html
     prior = sp.stats.uniform(60, 240)
     tempo_data = []
     total_dur = wfd.start_offset / 1000

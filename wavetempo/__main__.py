@@ -55,7 +55,7 @@ def get_tempos(wfd_path: pathlib.Path, dynamic: bool, suffix: str, hop_length: i
     else:
         tempo = librosa.feature.tempo(
             onset_envelope=onset_env, sr=sr, hop_length=hop_length,
-            start_bpm=wfd.tempo, prior=prior, max_tempo=240
+            start_bpm=wfd.tempo, prior=prior, max_tempo=240, aggregate=np.median
         )
     tempo_data.insert(0, {
         "start": wfd.start_offset,
